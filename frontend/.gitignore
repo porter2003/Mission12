@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Remove vs from git tracking
+.vs/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
