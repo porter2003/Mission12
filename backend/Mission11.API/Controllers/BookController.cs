@@ -16,12 +16,8 @@ namespace Mission11.API.Controllers
 
 
         [HttpGet("GetBooks")]
-        public IActionResult GetBooks(int pageSize, int pageNum = 1, string sortOrder = "asc")
+        public IActionResult GetBooks(int pageSize, int pageNum = 1, string sortOrder = "asc", [FromQuery] List<string>? bookTypes = null)
         {
-            //var something = _bookContext.Books
-            //    .Skip((pageNum-1)*pageSize)
-            //    .Take(pageSize)
-            //    .ToList();
             var booksQuery = _bookContext.Books.AsQueryable();
 
             // Apply sorting
@@ -33,13 +29,18 @@ namespace Mission11.API.Controllers
             {
                 booksQuery = booksQuery.OrderByDescending(b => b.Title);
             }
+            if (bookTypes != null)
+            {
+                booksQuery = booksQuery.Where(b => bookTypes.Contains(b.Category));
+            }
+            var totalNumBooks = booksQuery.Count();
 
             var something = booksQuery
                 .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
 
-            var totalNumBooks = _bookContext.Books.Count();
+            
 
             var someObject = new
             {
@@ -49,6 +50,16 @@ namespace Mission11.API.Controllers
 
             return Ok(someObject);
 
-        } 
+        }
+        [HttpGet("GetBookTypes")]
+        public IActionResult GetBookTypes()
+        {
+            var bookTypes = _bookContext.Books
+                .Select(b => b.Category)
+                .Distinct()
+                .ToList();
+
+            return Ok(bookTypes);
+        }
     }
 }
