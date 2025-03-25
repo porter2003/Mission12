@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\porte\\OneDrive\\IS 413\\Mission12\\backend\\Mission11.API\\Mission11.API.csproj": {}
+    "C:\\Mission12\\backend\\Mission11.API\\Mission11.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\porte\\OneDrive\\IS 413\\Mission12\\backend\\Mission11.API\\Mission11.API.csproj": {
+    "C:\\Mission12\\backend\\Mission11.API\\Mission11.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\porte\\OneDrive\\IS 413\\Mission12\\backend\\Mission11.API\\Mission11.API.csproj",
+        "projectUniqueName": "C:\\Mission12\\backend\\Mission11.API\\Mission11.API.csproj",
         "projectName": "Mission11.API",
-        "projectPath": "C:\\Users\\porte\\OneDrive\\IS 413\\Mission12\\backend\\Mission11.API\\Mission11.API.csproj",
+        "projectPath": "C:\\Mission12\\backend\\Mission11.API\\Mission11.API.csproj",
         "packagesPath": "C:\\Users\\porte\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\porte\\OneDrive\\IS 413\\Mission12\\backend\\Mission11.API\\obj\\",
+        "outputPath": "C:\\Mission12\\backend\\Mission11.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,31 +1,22 @@
-import { useState } from 'react';
-import './App.css'
-import BookList from './BookList'
-import CategoryFilter from './CategoryFilter'
-import WelcomeBand from './WelcomeBand'
+import './App.css';
+import BooksPage from './pages/BooksPage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DonatePage from './pages/DonatePage';
 
 function App() {
-    const [selectedCategories, setSelectedCategories] = useState<String[]>([]);
+
 
   return (
     <>
-    <div className='container'>
-      <div className='row bg-primary text-white'>
-        <WelcomeBand/>
-      </div>
-      <div className='row'>
-      <div className='col-md-3'>
-         <CategoryFilter 
-         selectedCategories ={selectedCategories} 
-         setSelectedCategories ={setSelectedCategories}/>
-      </div>
-      <div className='col-md-9'>
-        <BookList selectedCategories = {selectedCategories}/>
-        </div>
-      </div>
-    </div>
-
-  
+    <Router>
+      <Routes>
+      <Route path="/" element={<BooksPage/>}/>
+      <Route path="/books" element={<BooksPage/>}/>
+      <Route path="/donate/:bookName" element={<DonatePage/>}/>
+      
+      </Routes>
+    </Router>
+ 
     </>
   )
 }

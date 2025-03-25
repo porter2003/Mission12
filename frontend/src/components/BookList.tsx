@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Book } from './types/Book';
+import { Book } from '../types/Book';
+import { useNavigate } from 'react-router-dom';
 function BookList ({selectedCategories}: {selectedCategories: String[]}) {
 
     const [books, setBooks] = useState<Book[]>([]);   
@@ -8,6 +9,7 @@ function BookList ({selectedCategories}: {selectedCategories: String[]}) {
     const [totalItems, setTotalItems] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -46,8 +48,10 @@ function BookList ({selectedCategories}: {selectedCategories: String[]}) {
                 <li><strong>Pages:</strong> {b.pageCount}</li>
                 <li><strong>Price:</strong> ${b.price}</li>
                 </ul>
+                <button className='btn btn-success' onClick={()=> navigate(`/donate/${b.title}`)}>Donate</button>
                 </div>
             </div>
+            
         )}
         <button disabled={pageNum ===1} onClick={() => setPageNum(pageNum-1)} >Previous</button>
 
