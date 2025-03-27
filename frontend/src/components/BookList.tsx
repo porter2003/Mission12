@@ -48,7 +48,7 @@ function BookList ({selectedCategories}: {selectedCategories: String[]}) {
                 <li><strong>Pages:</strong> {b.pageCount}</li>
                 <li><strong>Price:</strong> ${b.price}</li>
                 </ul>
-                <button className='btn btn-success' onClick={()=> navigate(`/donate/${b.title}`)}>Donate</button>
+                <button className='btn btn-success' onClick={()=> navigate(`/donate/${b.title}/${b.bookID}`)}>Donate</button>
                 </div>
             </div>
             
