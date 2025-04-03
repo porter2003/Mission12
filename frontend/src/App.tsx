@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DonatePage from './pages/DonatePage';
 import CartPage from './pages/CartPage';
 import { CartProvider } from './context/CartContext';
+import AdminBooksPage from './pages/AdminBooksPage';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/donate/:bookName/:bookID" element={<DonatePage/>}/>
         <Route path="/cart" element={<CartPage/>}/>
         
+        <Route path="/adminbooks" element={<AdminBooksPage/>}/>
         </Routes>
       </Router>
     </CartProvider>
