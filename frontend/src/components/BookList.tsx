@@ -1,33 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import { Book } from '../types/Book';
 import { useNavigate } from 'react-router-dom';
-function BookList ({selectedCategories}: {selectedCategories: String[]}) {
+import { fetchBooks } from '../api/booksApi';
+import Pagination from './Pagination'; // Adjust the path as needed
+function BookList ({selectedCategories}: {selectedCategories: string[]}) {
 
     const [books, setBooks] = useState<Book[]>([]);   
     const [pageSize, setPageSize] = useState<number>(5);
     const [pageNum, setPageNum] = useState<number>(1);
-    const [totalItems, setTotalItems] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const navigate = useNavigate();
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchBooks = async () => {
-
-            const categoryParams = selectedCategories.map((cat) => `bookTypes=${encodeURIComponent(String(cat))}`)
-            .join('&');    
-
-            const response = await fetch(
-                `https://localhost:5000/api/Book/GetBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`
-            );
-            const data = await response.json();
-            setBooks(data.books);
-            setTotalItems(data.totalNumBooks);
-            setTotalPages(Math.ceil(totalItems / pageSize));
+        const loadBooks = async () => {
+            try{
+                setLoading(true);
+                const data = await fetchBooks(pageSize, pageNum, selectedCategories);
+            
+                setBooks(data.books);
+            setTotalPages(Math.ceil(data.totalNumBooks / pageSize));
+            }
+            catch (error) {
+                setError((error as Error).message);
+            }
+            finally {
+                setLoading(false);
+            }
         }
-        fetchBooks();
-    }, [pageSize, pageNum, totalItems, sortOrder, selectedCategories]);
+        loadBooks();
+    }, [pageSize, pageNum, sortOrder, selectedCategories]);
     
+    if (loading) {
+        return <div className="text-center">Loading books...</div>;
+    }
+    if (error) {
+        return <div className="text-danger text-center">Error: {error}</div>;
+    }
 
     return (
         <>
@@ -65,56 +76,16 @@ function BookList ({selectedCategories}: {selectedCategories: String[]}) {
                 )}
             </div>
         </div>
-    
-        {/* Pagination controls */}
-        <div className="d-flex justify-content-center my-4">
-            <button className="btn btn-secondary me-2" disabled={pageNum === 1} onClick={() => setPageNum(pageNum - 1)}>Previous</button>
-            {[...Array(totalPages)].map((_, index) => (
-                <button 
-                    key={index + 1} 
-                    className={`btn ${index + 1 === pageNum ? 'btn-primary' : 'btn-outline-primary'} mx-1`} 
-                    onClick={() => setPageNum(index + 1)}
-                >
-                    {index + 1}
-                </button>
-            ))}
-            <button className="btn btn-secondary ms-2" disabled={pageNum === totalPages} onClick={() => setPageNum(pageNum + 1)}>Next</button>
-        </div>
-    
-        <div className="text-center">
-            <label>
-                Results per page:&nbsp;
-                <select value={pageSize} onChange={(p) => {
-                    setPageSize(Number(p.target.value));
-                    setPageNum(1);
-                }}>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                </select>
-            </label>
-        </div>
-    
-        {/* #notcoveredinthevideos - Bootstrap Toast (hidden unless triggered) */}
-        <div 
-            className="toast align-items-center text-bg-info border-0 position-fixed bottom-0 end-0 m-3"
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-            id="sortToast"
-            style={{ display: 'none' }}
-        >
-            <div className="d-flex">
-                <div className="toast-body">
-                    Sort order changed to {sortOrder === 'asc' ? 'Ascending (A-Z)' : 'Descending (Z-A)'}
-                </div>
-                <button type="button" className="btn-close btn-close-white me-2 m-auto" onClick={() => {
-                    const toastEl = document.getElementById("sortToast");
-                    if (toastEl) toastEl.style.display = 'none';
-                }}></button>
-            </div>
-        </div>
+        <Pagination 
+            currentPage = {pageNum}
+            totalPages = {totalPages}
+            pageSize = {pageSize}
+            onPageChange = {setPageNum}
+            onPageSizeChange = {(newSize: SetStateAction<number>) =>{
+                setPageSize(newSize);
+                setPageNum(1);
+            }}
+            />
         </>
     );
     
