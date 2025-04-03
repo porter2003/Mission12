@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Book } from "../types/Book";
-import { addBook } from "../api/booksApi";
+import { addBook } from "../api/booksAPI";
 
 interface NewBookFormProps {
     onSuccess: (book: Book) => void;

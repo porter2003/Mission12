@@ -5,8 +5,8 @@ function CategoryFilter({
     selectedCategories, 
     setSelectedCategories,
     }:{
-        selectedCategories: String[],
-    setSelectedCategories: (categories: String[]) => void}) {
+        selectedCategories: string[],
+    setSelectedCategories: (categories: string[]) => void}) {
 
     const [categories, setCategories] = useState<String[]>([]);
 

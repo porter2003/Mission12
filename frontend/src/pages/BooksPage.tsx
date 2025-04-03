@@ -5,7 +5,7 @@ import WelcomeBand from "../components/WelcomeBand";
 import CartSummary from "../components/CartSummary";
 
 function BooksPage(){
-    const [selectedCategories, setSelectedCategories] = useState<String[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     
     return(
         <div className='container'>
